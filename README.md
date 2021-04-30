@@ -3,7 +3,7 @@ Metrics Generator for Object Detection Problems
 
 Use this project to generate the metrics results for your object detection problem.
 
-## **Running the Metriscs Generator**
+## **Running the Metrics Generator**
 
 ### **1st Step:**
 
