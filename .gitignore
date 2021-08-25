@@ -3,3 +3,4 @@ results*
 .txt
 data/*
 !data/.gitkeep
+.idea

@@ -4,6 +4,44 @@ import sys
 
 import cv2
 import matplotlib.pyplot as plt
+from xml.dom import minidom
+
+def get_xml_infos(path_xml_file):
+    root = minidom.parse(path_xml_file)
+
+    try:
+
+        objects = root.getElementsByTagName("object")
+
+        size = root.getElementsByTagName("size")[0]
+        width = int(float(size.getElementsByTagName("width")[0].firstChild.nodeValue))
+        height = int(float(size.getElementsByTagName("height")[0].firstChild.nodeValue))
+        depth = int(float(size.getElementsByTagName("depth")[0].firstChild.nodeValue))
+
+    except:
+
+        return [], None, None, None
+
+    objects_list = []  # (xmin, ymin, xmax, ymax)
+    for obj in objects:
+
+        try:
+            bndbox = obj.getElementsByTagName("bndbox")[0]
+            name = str(obj.getElementsByTagName("name")[0].firstChild.data)
+            name = name.lower()
+
+
+            xmin = int(float(bndbox.getElementsByTagName("xmin")[0].firstChild.nodeValue))
+            ymin = int(float(bndbox.getElementsByTagName("ymin")[0].firstChild.nodeValue))
+            xmax = int(float(bndbox.getElementsByTagName("xmax")[0].firstChild.nodeValue))
+            ymax = int(float(bndbox.getElementsByTagName("ymax")[0].firstChild.nodeValue))
+            objects_list.append((name, xmin, ymin, xmax, ymax))
+
+        except:
+
+            continue
+
+    return objects_list, width, height, depth
 
 def error(msg):
   print(msg)
@@ -93,6 +131,16 @@ def create_p_gt_folders(path_gt_file, path_pred_file, name, classes):
             temp_file = open(path_file, "w+")
             temp_file.writelines(new_lines)
             temp_file.close()
+
+    files_pred = os.listdir(p_folder_name)
+    files_gt = os.listdir(gt_folder_name)
+
+    for f_pred in files_pred:
+        if f_pred not in files_gt:
+            path = os.path.join(gt_folder_name, f_pred)
+            file = open(path, "w+")
+            file.write("")
+            file.close()
 
 
 """
