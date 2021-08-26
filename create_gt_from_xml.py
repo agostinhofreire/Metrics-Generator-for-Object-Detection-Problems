@@ -1,4 +1,4 @@
-from utils.Utils import *
+from utils.utils import *
 import os
 from configparser import ConfigParser
 import ast

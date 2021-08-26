@@ -5,7 +5,7 @@ import shutil
 
 import matplotlib.pyplot as plt
 
-from utils.Utils import *
+from utils.utils import *
 
 from configparser import ConfigParser
 import ast
